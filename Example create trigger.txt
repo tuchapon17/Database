@@ -1,0 +1,8 @@
+DELIMITER $$
+CREATE DEFINER='root'@'localhost' TRIGGER `roomreserve`.`update_canceled` AFTER UPDATE ON `roomreserve`.`tb_privilege_assign`
+  FOR EACH ROW begin
+	IF(new.canceled = 1) THEN
+		DELETE FROM tb_user_has_privilege WHERE tb_user_username = old.assign_to AND tb_privilege_id = old.tb_privilege_id;
+	END IF;
+END $$
+DELIMITER ;
